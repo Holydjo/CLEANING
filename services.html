@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Services — Oboosho</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Home cleaning services and add-ons. Standard, Special Mission, Super Clean and Move In / Out." />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body data-page="services">
+    <main>
+      <section class="page-hero">
+        <div class="circles"><div class="circle"></div><div class="circle"></div><div class="circle"></div></div>
+        <div class="wrap">
+          <div class="subttl">Our Services</div>
+          <h1>We Don’t Miss a Thing</h1>
+          <p class="lead">Four levels of clean, one checklist we never skip. Prices shown are for a studio with one bathroom; the booking page adjusts them for your home.</p>
+        </div>
+        <div class="page-illus"></div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="cards four" data-render="types"></div>
+        </div>
+      </section>
+
+      <section class="section" style="background: var(--bg)">
+        <div class="wrap">
+          <div class="anim-block" style="margin-bottom: 50px">
+            <div class="subttl">Basic services</div>
+            <h2 class="main">Included in every clean</h2>
+          </div>
+          <div class="checklist-cols" data-render="checklist"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="anim-block" style="margin-bottom: 40px">
+            <div class="subttl">Add-ons</div>
+            <h2 class="main">Make it yours</h2>
+            <p style="max-width: 52ch">Add any of these to a Standard or Special Mission clean. They are already included in Super Clean and Move In / Out.</p>
+          </div>
+          <div class="addons" data-render="addons"></div>
+          <div class="note anim-up" data-render="notes" style="margin-top: 40px"></div>
+        </div>
+      </section>
+
+      <section class="section section-booking booking-center">
+        <div class="col-12 blue">
+          <span class="blob a"></span><span class="blob b"></span>
+          <div class="info anim-block">
+            <h3 class="big">What are you waiting for?</h3>
+            <p>Book your cleaning services today!</p>
+            <a href="booking.html" class="btn white"><span>Book cleaning</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/pages/inner.js"></script>
+  </body>
+</html>
