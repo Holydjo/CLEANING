@@ -47,7 +47,7 @@ function renderTeam() {
     .map(
       (m) => `
       <div class="member anim-up">
-        <div class="photo">${portrait(m.seed, m.seed % 2 ? '#3f44c9' : '#5b5fe0')}</div>
+        <div class="photo">${portrait(m.seed, m.seed % 2 ? '#0877c8' : '#2aa3ec')}</div>
         <b>${m.name}</b>
         <small>${m.role}</small>
         <div class="rating">${'★'.repeat(Math.round(m.rating))}<span>${m.rating.toFixed(1)} · ${m.jobs} cleanings</span></div>

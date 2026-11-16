@@ -1,6 +1,6 @@
 # CLEANING
 
-A from-scratch design study of the Oboosho home cleaning site, the 2019 Awwwards Honorable Mention. This is an unofficial remake and is not affiliated with the original business or its agency.
+The website of HOLYDJO-CLEAN, a home cleaning company in Canada. The layout and motion started as a from-scratch design study of the Oboosho site, the 2019 Awwwards Honorable Mention. The brand, colors, pictures and copy are HOLYDJO-CLEAN's own, and the site is not affiliated with the original business or its agency.
 
 ## Run it
 
@@ -29,6 +29,22 @@ npm run dev
 
 Vite multi-page build, vanilla JavaScript, GSAP with ScrollTrigger, Draggable and Inertia, and Lenis for smooth scrolling. No framework and no backend.
 
+## Brand: HOLYDJO-CLEAN
+
+- **Name and logo.** The name and the logo wordmark are set in `brand` in `src/data.js`. The water-drop logo mark is `logoMark` in `src/illustrations.js`.
+- **Colors.** Sky blue and white with a sunny accent. The tokens are at the top of `src/styles/main.css`.
+- **Pictures.** Every picture is an original vector drawing in `src/illustrations.js`: the water-drop mascot, three scenes, four feature icons, the team portraits, the loader and the logo mark. The favicon is `public/favicon.svg`. No picture, person, text or logo comes from the original site.
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--blue` | `#0877c8` | Buttons, links, logo |
+| `--blue-dark` | `#075a9c` | Hover and deep accents |
+| `--blue-light` | `#8fcdf5` | Outlines and soft accents |
+| `--bg` | `#f1f8fd` | Page tint |
+| `--pink` | `#ffe2ad` | Sunny accent blob |
+
+To use real photos later, put them in `public/photos/` and swap the matching export in `src/illustrations.js` for an `<img>` tag. Each slot keeps its shape through CSS.
+
 ## Region: Canada
 
 The site is configured for Canada. The settings live at the top of `src/data.js`.
@@ -52,13 +68,13 @@ The site is configured for Canada. The settings live at the top of `src/data.js`
 
 - `src/data.js` holds the brand name, contact details, prices, services, reviews, team and FAQ.
 - `src/styles/main.css` holds the design tokens at the top of the file.
-- `src/illustrations.js` holds every SVG illustration.
+- `src/illustrations.js` holds every picture, all drawn for HOLYDJO-CLEAN.
 
 ## Before going live
 
 - Contact details are placeholders. Set real ones in `src/data.js`.
 - Forms, booking and sign-in are front-end demos. Nothing is sent or stored.
-- Reviews, team members and statistics are sample content.
+- Reviews, team members, portraits, the two rating bars and the statistics are sample content. Replace them with real ones.
 - The promo code `CLEAN10` exists only to demonstrate the summary.
 - Tax rates are the 2026 rates. Have an accountant confirm them, especially the GST-only setting for British Columbia, Manitoba and Saskatchewan.
 - You only charge GST / HST once you are registered. Add your registration number to invoices when you are.

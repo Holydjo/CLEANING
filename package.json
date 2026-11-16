@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Oboosho-inspired home cleaning website remake",
+  "description": "HOLYDJO-CLEAN home cleaning website",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

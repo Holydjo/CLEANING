@@ -31,7 +31,7 @@ function initLenis() {
 /* ---------------------------------------------------------------- */
 
 function runPreloader(onDone) {
-  const shown = sessionStorage.getItem('oboosho-loaded');
+  const shown = sessionStorage.getItem('holydjo-loaded');
   if (shown || reduced) {
     onDone();
     return;
@@ -39,16 +39,16 @@ function runPreloader(onDone) {
   document.body.classList.add('is-loading');
   const el = renderPreloader();
   const perc = el.querySelector('.perc');
-  const gloveEl = el.querySelector('.glove');
+  const gloveEl = el.querySelector('.loader-mark');
   const bubbles = el.querySelectorAll('.bubble');
   const state = { n: 0 };
 
-  gsap.to(gloveEl, { rotate: 18, duration: 0.55, yoyo: true, repeat: -1, ease: 'sine.inOut', transformOrigin: '50% 110%' });
+  gsap.fromTo(gloveEl, { rotate: -8 }, { rotate: 8, duration: 0.6, yoyo: true, repeat: -1, ease: 'sine.inOut', transformOrigin: '50% 100%' });
   gsap.to(bubbles, { y: -30, opacity: 0, duration: 1.4, stagger: 0.3, repeat: -1, ease: 'power1.out' });
 
   const tl = gsap.timeline({
     onComplete() {
-      sessionStorage.setItem('oboosho-loaded', '1');
+      sessionStorage.setItem('holydjo-loaded', '1');
       document.body.classList.remove('is-loading');
       gsap.to(el.querySelector('.load'), { y: -40, opacity: 0, duration: 0.5, ease: 'power2.in' });
       gsap.to(el, {

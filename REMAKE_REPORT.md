@@ -31,7 +31,8 @@ The inner pages were never archived. Their structure here is reconstructed from 
 
 ## What differs, on purpose
 
-- **Mascot and artwork.** The original used a rendered 3D character on a canvas and photographs. Those are copyrighted, so every illustration here is a new flat SVG.
+- **Mascot and artwork.** The original used a rendered 3D character on a canvas and photographs. Those are copyrighted, so every picture here is a new flat SVG drawn for HOLYDJO-CLEAN: a water-drop mascot, three scenes, icons, team portraits, loader and logo. Each sits in the same spot and shape as the picture it replaces.
+- **Brand.** The site now carries the HOLYDJO-CLEAN name and logo and a sky blue and white palette in place of the original indigo. The "Palette" row in the table above describes the first version of the remake.
 - **Typefaces.** TT Norms and Graphik are commercial. Manrope and Inter stand in for them.
 - **Body copy.** Paragraphs are newly written. Short headlines follow the original's tone.
 - **Contact details.** The original phone number and email are replaced with placeholders, because the old domain has changed hands.

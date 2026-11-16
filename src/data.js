@@ -54,7 +54,9 @@ export const serviceAreas = [
 ];
 
 export const brand = {
-  name: 'oboosho',
+  name: 'HOLYDJO-CLEAN',
+  /* Wordmark markup for the logo: the second half is tinted with the brand blue. */
+  wordmark: 'HOLYDJO<b>-CLEAN</b>',
   tagline: 'Home cleaning services',
   /* Placeholder contact details. Replace with your own before going live. */
   email: 'hello@example.com',

@@ -1,5 +1,5 @@
 import { brand, nav, region } from './data.js';
-import { social, userIcon, menuIcon, glove } from './illustrations.js';
+import { social, userIcon, menuIcon, logoMark, loaderMark } from './illustrations.js';
 
 const page = document.body.dataset.page || '';
 
@@ -17,7 +17,7 @@ export function renderPreloader() {
           <span class="bubble" style="width:18px;height:18px;left:22%;top:70%"></span>
           <span class="bubble" style="width:10px;height:10px;left:68%;top:62%"></span>
           <span class="bubble" style="width:26px;height:26px;left:72%;top:22%"></span>
-          ${glove}
+          ${loaderMark}
         </div>
       </div>
       <div class="perc">0%</div>
@@ -33,7 +33,7 @@ export function renderHeader() {
   header.innerHTML = `
     <div class="flex flex-just-b flex-center-v">
       <a href="index.html" class="logo" aria-label="${brand.name} home">
-        <span class="main">${brand.name}</span>
+        ${logoMark}<span class="main">${brand.wordmark}</span>
         <span class="desc">${brand.tagline}</span>
       </a>
       <div class="controls">
@@ -94,8 +94,8 @@ export function renderFooter() {
     <div class="wrap">
       <div class="top">
         <div>
-          <a href="index.html" class="logo">${brand.name}</a>
-          <p class="copy">Copyright © ${new Date().getFullYear()} Oboosho.<br>All rights reserved.</p>
+          <a href="index.html" class="logo" aria-label="${brand.name} home">${logoMark}<span class="main">${brand.wordmark}</span></a>
+          <p class="copy">Copyright © ${new Date().getFullYear()} ${brand.name}.<br>All rights reserved.</p>
         </div>
         <div class="footer-menu">
           <div class="menu"><ul>
@@ -123,7 +123,7 @@ export function renderFooter() {
       </div>
       <div class="btm">
         <div class="legal"><a href="#">Terms and Conditions</a><a href="#">Privacy Policy</a></div>
-        <div class="creator">Unofficial design study inspired by the 2019 <b>Oboosho</b> site · not affiliated</div>
+        <div class="creator"><b>${brand.name}</b> · Home cleaning in ${region.country}</div>
       </div>
     </div>`;
   document.body.append(footer);

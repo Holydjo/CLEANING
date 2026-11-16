@@ -1,22 +1,22 @@
 /* ------------------------------------------------------------------
-   Oboosho remake — design system
-   Palette, type and rhythm follow the 2019 Awwwards honorable mention:
-   indigo #3f44c9 on lavender-grey #f5f4fa, soft organic blobs,
-   geometric headings, pill controls.
+   HOLYDJO-CLEAN — design system
+   Sky blue #0877c8 on a pale sky white #f1f8fd, with a sunny accent.
+   Soft organic blobs, geometric headings, pill controls.
 ------------------------------------------------------------------- */
 
 :root {
-  --blue: #3f44c9;
-  --blue-dark: #2f33a6;
-  --blue-light: #a0a3ea;
-  --bg: #f5f4fa;
-  --bg-2: #f7f7ff;
-  --bg-3: #f6f2fd;
-  --rose: #f8f3f3;
-  --pink: #f4b4b4;
+  --blue: #0877c8;
+  --blue-dark: #075a9c;
+  --blue-light: #8fcdf5;
+  --bg: #f1f8fd;
+  --bg-2: #f5fbff;
+  --bg-3: #eaf5fd;
+  --rose: #fdf3e3;
+  --pink: #ffe2ad;
+  --sun: #ffd36b;
   --ink: #000;
   --ink-2: #393939;
-  --muted: #7a7e97;
+  --muted: #6b7f93;
   --muted-2: #988a8a;
   --line: #e6e6e6;
   --white: #fff;
@@ -338,13 +338,12 @@ p {
   -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
-.preload .anim-hand .glove {
+.preload .anim-hand .loader-mark {
   position: absolute;
-  width: 62%;
-  left: 50%;
-  top: 50%;
-  transform-origin: 50% 110%;
-  transform: translate(-50%, -38%) rotate(0deg);
+  width: 50%;
+  left: 25%;
+  top: 20%;
+  transform-origin: 50% 100%;
 }
 
 .preload .anim-hand .bubble {
@@ -397,17 +396,31 @@ p {
   pointer-events: auto;
 }
 
+.logo .mark {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  color: var(--blue);
+  transition: color 500ms var(--ease-out);
+}
+
+.logo .main b {
+  font-weight: inherit;
+  color: var(--blue);
+  transition: color 500ms var(--ease-out);
+}
+
 #header .logo {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
 }
 
 #header .logo .main {
   font-family: var(--font-head);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
   color: var(--ink);
   transition: color 500ms var(--ease-out);
 }
@@ -492,6 +505,8 @@ p {
 }
 
 #header.white:not(.menu-open):not(.scrolled) .logo .main,
+#header.white:not(.menu-open):not(.scrolled) .logo .main b,
+#header.white:not(.menu-open):not(.scrolled) .logo .mark,
 #header.white:not(.menu-open):not(.scrolled) .logo .desc {
   color: var(--white);
 }
@@ -968,7 +983,7 @@ p {
   height: auto;
   transform-origin: 50% 100%;
   will-change: transform;
-  filter: drop-shadow(0 40px 60px rgba(63, 68, 201, 0.18));
+  filter: drop-shadow(0 40px 60px rgba(8, 119, 200, 0.18));
 }
 
 .scrollmore {
@@ -1212,11 +1227,11 @@ p {
 }
 
 .get-some-love .service.yelp .logo {
-  color: #d32323;
+  color: var(--blue);
 }
 
 .get-some-love .service.grev .logo {
-  color: #4285f4;
+  color: var(--blue);
 }
 
 .some_rating {
@@ -1420,10 +1435,13 @@ p {
 }
 
 #footer .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-head);
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 #footer .copy {
@@ -1984,7 +2002,7 @@ p {
 .field textarea:focus,
 .field select:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 4px rgba(63, 68, 201, 0.1);
+  box-shadow: 0 0 0 4px rgba(8, 119, 200, 0.1);
 }
 
 .field textarea {
@@ -2155,7 +2173,7 @@ p {
 .choice.active {
   border-color: var(--blue);
   background: var(--bg-2);
-  box-shadow: 0 0 0 4px rgba(63, 68, 201, 0.08);
+  box-shadow: 0 0 0 4px rgba(8, 119, 200, 0.08);
 }
 
 .choice b {
@@ -2450,7 +2468,9 @@ p {
 }
 
 @media (min-width: 861px) {
-  body[data-page='signin'] #header:not(.menu-open):not(.scrolled) .logo .main {
+  body[data-page='signin'] #header:not(.menu-open):not(.scrolled) .logo .main,
+  body[data-page='signin'] #header:not(.menu-open):not(.scrolled) .logo .main b,
+  body[data-page='signin'] #header:not(.menu-open):not(.scrolled) .logo .mark {
     color: var(--white);
   }
   body[data-page='signin'] #header:not(.menu-open):not(.scrolled) .logo .desc {
