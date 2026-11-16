@@ -1,6 +1,6 @@
 /* Shared behaviours for the inner pages: services, about, team, faq, contacts, careers. */
 import { boot } from '../main.js';
-import { cleaningTypes, addons, checklist, notes, team, faq, perks, requirements, money } from '../data.js';
+import { cleaningTypes, addons, checklist, notes, team, faq, perks, requirements, serviceAreas, money } from '../data.js';
 import { portrait, mascot, services as servicesIllus, home as homeIllus } from '../illustrations.js';
 
 const page = document.body.dataset.page;
@@ -89,6 +89,12 @@ function renderCareers() {
   document.querySelector('[data-render="requirements"]').innerHTML = requirements.map((x) => `<li class="anim-up">${x}</li>`).join('');
 }
 
+function renderAreas() {
+  const el = document.querySelector('[data-render="areas"]');
+  if (!el) return;
+  el.innerHTML = serviceAreas.map((a) => `<div class="row"><span>${a.city}, ${a.province}</span><b>${a.note}</b></div>`).join('');
+}
+
 function initForms(gsap) {
   document.querySelectorAll('form[data-demo]').forEach((form) => {
     form.addEventListener('submit', (e) => {
@@ -114,6 +120,7 @@ renderServices();
 renderTeam();
 renderCareers();
 renderFaq();
+renderAreas();
 
 boot(({ gsap, ScrollTrigger }) => {
   initFaq(gsap, ScrollTrigger);

@@ -38,6 +38,7 @@ The inner pages were never archived. Their structure here is reconstructed from 
 - **Stack.** The original was Vue with a PHP backend, Stripe and Google Maps. This is a static front end with no backend.
 - **Booking and accounts.** The four-step booking flow and the sign-in page are working demos. They compute prices and validate input but send nothing.
 - **Sample content.** Reviews, team members, prices beyond the hero and the statistics are invented for the remake.
+- **Region.** The original served New York. This remake is configured for Canada: Canadian dollars, GST / HST / QST by province, Canadian postal codes and Canadian service areas.
 
 ## Verification
 

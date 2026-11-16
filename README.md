@@ -22,14 +22,33 @@ npm run dev
 | FAQ | `faq.html` | Animated accordion |
 | Contacts | `contacts.html` | Contact form, hours, service area |
 | Careers | `careers.html` | Perks, requirements, application form |
-| Booking | `booking.html` | Four-step flow with a live price summary |
+| Booking | `booking.html` | Four-step flow with a live price summary, province tax and postal code check |
 | Sign in | `signin.html` | Sign in and sign up panel |
 
 ## Stack
 
 Vite multi-page build, vanilla JavaScript, GSAP with ScrollTrigger, Draggable and Inertia, and Lenis for smooth scrolling. No framework and no backend.
 
+## Region: Canada
+
+The site is configured for Canada. The settings live at the top of `src/data.js`.
+
+- **Currency.** Prices are in Canadian dollars and formatted with the `en-CA` locale.
+- **Sales tax.** The `provinces` table sets the tax for each province and territory. The booking summary shows each tax on its own line.
+- **Address.** The booking form asks for city, province and a Canadian postal code. The postal code is checked, formatted as `A1A 1A1`, and used to pick the province.
+- **Copy.** Service areas, reviews, careers perks and contact placeholders are written for Canada. Edit `serviceAreas` to match the cities you serve.
+
+| Province or territory | Tax applied |
+| --- | --- |
+| Ontario | HST 13% |
+| Nova Scotia | HST 14% |
+| New Brunswick, Newfoundland and Labrador, Prince Edward Island | HST 15% |
+| Quebec | GST 5% + QST 9.975% |
+| Alberta, British Columbia, Manitoba, Saskatchewan, the territories | GST 5% |
+
 ## Where to change things
+
+- `src/data.js` starts with `region`, `provinces` and `serviceAreas`, the Canada settings.
 
 - `src/data.js` holds the brand name, contact details, prices, services, reviews, team and FAQ.
 - `src/styles/main.css` holds the design tokens at the top of the file.
@@ -41,5 +60,10 @@ Vite multi-page build, vanilla JavaScript, GSAP with ScrollTrigger, Draggable an
 - Forms, booking and sign-in are front-end demos. Nothing is sent or stored.
 - Reviews, team members and statistics are sample content.
 - The promo code `CLEAN10` exists only to demonstrate the summary.
+- Tax rates are the 2026 rates. Have an accountant confirm them, especially the GST-only setting for British Columbia, Manitoba and Saskatchewan.
+- You only charge GST / HST once you are registered. Add your registration number to invoices when you are.
+- The site is in English only. Serving customers in Quebec requires a French version.
+- A live site needs a privacy policy and consent for marketing email under Canadian law (PIPEDA and CASL).
+- Prices kept the same figures as before and are now read as Canadian dollars. Set your real prices.
 
 See `REMAKE_REPORT.md` for how this compares with the original.

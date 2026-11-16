@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-CA">
   <head>
     <meta charset="UTF-8" />
     <title>Book your cleaning — Oboosho</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="Book your cleaning services today." />
+    <meta name="description" content="Book your home cleaning in Canada. Prices in Canadian dollars with GST, HST or QST shown before you confirm." />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,11 +60,19 @@
                 </div>
                 <div class="two">
                   <div class="field"><label for="b-email">Your e-mail</label><input id="b-email" name="email" type="email" required autocomplete="email" /></div>
-                  <div class="field"><label for="b-phone">Phone number</label><input id="b-phone" name="phone" type="tel" required autocomplete="tel" /></div>
+                  <div class="field"><label for="b-phone">Phone number</label><input id="b-phone" name="phone" type="tel" required autocomplete="tel" placeholder="(416) 555-0142" /></div>
                 </div>
                 <div class="two">
                   <div class="field"><label for="b-address">Address</label><input id="b-address" name="address" required autocomplete="street-address" /></div>
-                  <div class="field"><label for="b-apt">Apt. Number</label><input id="b-apt" name="apt" /></div>
+                  <div class="field"><label for="b-apt">Unit / Apt.</label><input id="b-apt" name="apt" autocomplete="address-line2" /></div>
+                </div>
+                <div class="two">
+                  <div class="field"><label for="b-city">City</label><input id="b-city" name="city" required autocomplete="address-level2" /></div>
+                  <div class="field"><label for="b-province">Province / Territory</label><select id="b-province" name="province" required autocomplete="address-level1"></select></div>
+                </div>
+                <div class="two">
+                  <div class="field"><label for="b-postal">Postal Code</label><input id="b-postal" name="postal" required autocomplete="postal-code" placeholder="A1A 1A1" maxlength="7" autocapitalize="characters" /></div>
+                  <div class="field"><label for="b-country">Country</label><input id="b-country" name="country" value="Canada" readonly autocomplete="country-name" /></div>
                 </div>
                 <div class="label" style="margin: 8px 0 0">How will we get in?</div>
                 <div class="chips" data-chips="access" style="margin-bottom: 0"></div>

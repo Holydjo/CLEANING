@@ -1,5 +1,5 @@
 import { boot } from '../main.js';
-import { bedrooms, bathrooms, cleaningTypes, addons, frequencies, quote, money } from '../data.js';
+import { region, provinces, bedrooms, bathrooms, cleaningTypes, addons, frequencies, quote, money, pct, isPostalCode, formatPostalCode, provinceFromPostalCode } from '../data.js';
 
 const params = new URLSearchParams(location.search);
 
@@ -12,14 +12,15 @@ const state = {
   frequencyId: 'once',
   date: null,
   time: null,
-  access: 'doorman',
+  access: 'concierge',
   pets: 'none',
   promo: '',
+  provinceId: region.defaultProvince,
 };
 
 const accessOptions = [
   { id: 'home', label: 'I’ll be home' },
-  { id: 'doorman', label: 'Doorman' },
+  { id: 'concierge', label: 'Concierge' },
   { id: 'key', label: 'Hidden key' },
   { id: 'code', label: 'Entry code' },
 ];
@@ -44,9 +45,9 @@ function nextDays(n) {
   return out;
 }
 
-const fmtDay = new Intl.DateTimeFormat('en-US', { weekday: 'short' });
-const fmtMonth = new Intl.DateTimeFormat('en-US', { month: 'short' });
-const fmtFull = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+const fmtDay = new Intl.DateTimeFormat(region.locale, { weekday: 'short' });
+const fmtMonth = new Intl.DateTimeFormat(region.locale, { month: 'short' });
+const fmtFull = new Intl.DateTimeFormat(region.locale, { weekday: 'long', month: 'long', day: 'numeric' });
 
 function chips(el, options, key) {
   el.innerHTML = options.map((o) => `<button type="button" class="chip ${String(state[key]) === String(o.id) ? 'active' : ''}" data-id="${o.id}">${o.label}${o.discount ? ` · −${o.discount * 100}%` : ''}</button>`).join('');
@@ -90,6 +91,18 @@ function renderControls() {
     render();
   });
 
+  const prov = $('#b-province');
+  prov.innerHTML = provinces.map((p) => `<option value="${p.id}" ${p.id === state.provinceId ? 'selected' : ''}>${p.name}</option>`).join('');
+
+  const postal = $('#b-postal');
+  postal.addEventListener('input', () => {
+    postal.value = formatPostalCode(postal.value);
+    const guess = provinceFromPostalCode(postal.value);
+    /* "X" is shared by the Northwest Territories and Nunavut, so keep Nunavut if it is already chosen. */
+    if (guess && !(guess === 'NT' && prov.value === 'NU')) prov.value = guess;
+    postal.setCustomValidity(!postal.value || isPostalCode(postal.value) ? '' : 'Enter a Canadian postal code, for example M5V 2T6.');
+  });
+
   const days = nextDays(14);
   state.date = days[0];
   const dates = $('[data-dates]');
@@ -115,6 +128,7 @@ function renderControls() {
 }
 
 function render() {
+  state.provinceId = $('#b-province').value || state.provinceId;
   const q = quote(state);
   const included = q.type.id >= 19;
   $('.addons-note').hidden = !included;
@@ -134,17 +148,18 @@ function render() {
     ${rows.map(([k, v]) => `<div class="row"><span>${k}</span><span>${v}</span></div>`).join('')}
     <div class="row"><span>Subtotal</span><span>${money(q.subtotal)}</span></div>
     ${q.discount ? `<div class="row discount"><span>Discount (${Math.round(q.discountRate * 100)}%)</span><span>−${money(q.discount)}</span></div>` : ''}
-    <div class="row"><span>Tax</span><span>${money(q.tax)}</span></div>
-    <div class="row total"><span>Total</span><span>${money(q.total)}</span></div>`;
+    ${q.taxes.map((t) => `<div class="row"><span>${t.label} (${pct(t.rate)}) · ${q.province.id}</span><span>${money(t.amount)}</span></div>`).join('')}
+    <div class="row total"><span>Total (${region.currency})</span><span>${money(q.total)}</span></div>`;
 
   const data = Object.fromEntries(new FormData($('#details')));
   $('[data-review]').innerHTML = `
     <div class="ttl">Total information on order</div>
     ${rows.map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join('')}
     <div class="row"><span>Name</span><b>${escapeHtml(`${data.first || ''} ${data.last || ''}`.trim() || '—')}</b></div>
-    <div class="row"><span>Address</span><b>${escapeHtml([data.address, data.apt && `Apt ${data.apt}`].filter(Boolean).join(', ') || '—')}</b></div>
+    <div class="row"><span>Address</span><b>${escapeHtml([data.apt && `Unit ${data.apt}`, data.address, data.city, data.address && q.province.id, data.postal].filter(Boolean).join(', ') || '—')}</b></div>
     <div class="row"><span>How will we get in?</span><b>${accessOptions.find((a) => a.id === state.access).label}</b></div>
-    <div class="row"><span>Total</span><b>${money(q.total)}</b></div>`;
+    <div class="row"><span>Tax</span><b>${q.taxes.map((t) => `${t.label} ${money(t.amount)}`).join(' + ')}</b></div>
+    <div class="row"><span>Total (${region.currency})</span><b>${money(q.total)}</b></div>`;
 
   $$('.steps-nav span').forEach((s, i) => {
     s.classList.toggle('done', i < state.step);
@@ -182,6 +197,7 @@ boot(({ gsap, lenis }) => {
   $('[data-next]').addEventListener('click', () => go(1));
   $('[data-back]').addEventListener('click', () => go(-1));
   $('#details').addEventListener('input', render);
+  $('#details').addEventListener('change', render);
   $('[data-promo-apply]').addEventListener('click', () => {
     state.promo = $('[data-promo]').value;
     render();

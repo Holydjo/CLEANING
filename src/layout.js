@@ -1,4 +1,4 @@
-import { brand, nav } from './data.js';
+import { brand, nav, region } from './data.js';
 import { social, userIcon, menuIcon, glove } from './illustrations.js';
 
 const page = document.body.dataset.page || '';
@@ -64,7 +64,7 @@ export function renderHeader() {
           </div>
         </div>
         <div>
-          <div class="ttl">Business hours (EST)</div>
+          <div class="ttl">Business hours (${region.timezone})</div>
           <div class="values">
             ${brand.hours.map((h) => `<div class="value"><div class="name">${h.days}</div><div class="val">${h.time}</div></div>`).join('')}
           </div>
@@ -77,7 +77,7 @@ export function renderHeader() {
         </ul>
       </div>
       <div class="menu-foot">
-        <span>New York, NY</span>
+        <span>${region.hq} · ${region.country}</span>
         <span>Get your life back!</span>
       </div>
     </div>`;
