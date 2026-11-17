@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { renderPreloader, renderHeader, renderFooter } from './layout.js';
+import { t as tr, translateDocument, setLanguage } from './i18n.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,7 +95,7 @@ function initHeader() {
     open = typeof force === 'boolean' ? force : !open;
     header.classList.toggle('menu-open', open);
     btn.setAttribute('aria-expanded', String(open));
-    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    btn.setAttribute('aria-label', open ? tr('Close menu') : tr('Open menu'));
     if (open) {
       menu.classList.add('open');
       app.lenis?.stop();
@@ -222,6 +223,9 @@ function initAnchors() {
 export function boot(pageInit) {
   initHeader();
   renderFooter();
+  /* Header, footer and the page's own text are on the page now: put them in the chosen language. */
+  translateDocument();
+  document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLanguage(b.dataset.lang)));
   initLenis();
   initButtons();
   initBlobs();

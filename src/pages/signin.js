@@ -1,4 +1,5 @@
 import { boot } from '../main.js';
+import { t as tr } from '../i18n.js';
 import { mascot } from '../illustrations.js';
 
 document.querySelector('.mascot-slot').innerHTML = mascot;
@@ -15,9 +16,9 @@ boot(({ gsap }) => {
     document.querySelectorAll('[data-only]').forEach((el) => {
       el.hidden = el.dataset.only !== mode;
     });
-    title.textContent = mode === 'in' ? 'Sign In' : 'Sign Up';
-    sub.textContent = mode === 'in' ? 'Welcome back, please login to your account.' : 'Create an account and discover more opportunities.';
-    submit.textContent = mode === 'in' ? 'Sign In' : 'Sign Up';
+    title.textContent = mode === 'in' ? tr('Sign In') : tr('Sign Up');
+    sub.textContent = mode === 'in' ? tr('Welcome back, please login to your account.') : tr('Create an account and discover more opportunities.');
+    submit.textContent = mode === 'in' ? tr('Sign In') : tr('Sign Up');
     form.querySelector('#a-pass').autocomplete = mode === 'in' ? 'current-password' : 'new-password';
     gsap.fromTo(form.children, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.04, ease: 'power3.out' });
   };

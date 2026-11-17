@@ -1,5 +1,6 @@
 import { boot } from '../main.js';
-import { region, provinces, bedrooms, bathrooms, cleaningTypes, addons, frequencies, quote, money, pct, isPostalCode, formatPostalCode, provinceFromPostalCode } from '../data.js';
+import { t as tr, lang } from '../i18n.js';
+import { region, provinces, bedrooms, bathrooms, cleaningTypes, addons, frequencies, quote, money, money0, pct, isPostalCode, formatPostalCode, provinceFromPostalCode } from '../data.js';
 
 const params = new URLSearchParams(location.search);
 
@@ -19,18 +20,20 @@ const state = {
 };
 
 const accessOptions = [
-  { id: 'home', label: 'I’ll be home' },
-  { id: 'concierge', label: 'Concierge' },
-  { id: 'key', label: 'Hidden key' },
-  { id: 'code', label: 'Entry code' },
+  { id: 'home', label: tr('I’ll be home') },
+  { id: 'concierge', label: tr('Concierge') },
+  { id: 'key', label: tr('Hidden key') },
+  { id: 'code', label: tr('Entry code') },
 ];
 const petOptions = [
-  { id: 'none', label: 'No pets' },
-  { id: 'dog', label: 'Dog' },
-  { id: 'cat', label: 'Cat' },
-  { id: 'other', label: 'Other' },
+  { id: 'none', label: tr('No pets') },
+  { id: 'dog', label: tr('Dog') },
+  { id: 'cat', label: tr('Cat') },
+  { id: 'other', label: tr('Other') },
 ];
-const times = ['8:00 am', '9:00 am', '10:00 am', '11:00 am', '12:00 pm', '1:00 pm', '2:00 pm', '3:00 pm', '4:00 pm', '5:00 pm', '6:00 pm', '7:00 pm'];
+/* Start times from 8 am to 7 pm: "8:00 am" in English, "8 h" in French. */
+const fmtHour = (h) => (lang === 'fr' ? `${h} h` : `${h % 12 || 12}:00 ${h < 12 ? 'am' : 'pm'}`);
+const times = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].map(fmtHour);
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -50,7 +53,7 @@ const fmtMonth = new Intl.DateTimeFormat(region.locale, { month: 'short' });
 const fmtFull = new Intl.DateTimeFormat(region.locale, { weekday: 'long', month: 'long', day: 'numeric' });
 
 function chips(el, options, key) {
-  el.innerHTML = options.map((o) => `<button type="button" class="chip ${String(state[key]) === String(o.id) ? 'active' : ''}" data-id="${o.id}">${o.label}${o.discount ? ` · −${o.discount * 100}%` : ''}</button>`).join('');
+  el.innerHTML = options.map((o) => `<button type="button" class="chip ${String(state[key]) === String(o.id) ? 'active' : ''}" data-id="${o.id}">${o.label}${o.discount ? ` · −${pct(o.discount)}` : ''}</button>`).join('');
   el.addEventListener('click', (e) => {
     const b = e.target.closest('.chip');
     if (!b) return;
@@ -70,7 +73,7 @@ function renderControls() {
 
   const choices = $('[data-choices="typeId"]');
   choices.innerHTML = cleaningTypes
-    .map((t) => `<button type="button" class="choice ${state.typeId === t.id ? 'active' : ''}" data-id="${t.id}"><b>${t.label}</b><small>${t.hours}</small><span class="p">from ${money(t.base)}</span></button>`)
+    .map((t) => `<button type="button" class="choice ${state.typeId === t.id ? 'active' : ''}" data-id="${t.id}"><b>${t.label}</b><small>${t.hours}</small><span class="p">${tr('from {price}', { price: money(t.base) })}</span></button>`)
     .join('');
   choices.addEventListener('click', (e) => {
     const b = e.target.closest('.choice');
@@ -81,7 +84,7 @@ function renderControls() {
   });
 
   const ad = $('[data-addons]');
-  ad.innerHTML = addons.map((a) => `<button type="button" class="chip" data-id="${a.id}">${a.label} · +$${a.price}</button>`).join('');
+  ad.innerHTML = addons.map((a) => `<button type="button" class="chip" data-id="${a.id}">${a.label} · +${money0(a.price)}</button>`).join('');
   ad.addEventListener('click', (e) => {
     const b = e.target.closest('.chip');
     if (!b) return;
@@ -100,7 +103,7 @@ function renderControls() {
     const guess = provinceFromPostalCode(postal.value);
     /* "X" is shared by the Northwest Territories and Nunavut, so keep Nunavut if it is already chosen. */
     if (guess && !(guess === 'NT' && prov.value === 'NU')) prov.value = guess;
-    postal.setCustomValidity(!postal.value || isPostalCode(postal.value) ? '' : 'Enter a Canadian postal code, for example M5V 2T6.');
+    postal.setCustomValidity(!postal.value || isPostalCode(postal.value) ? '' : tr('Enter a Canadian postal code, for example M5V 2T6.'));
   });
 
   const days = nextDays(14);
@@ -136,30 +139,30 @@ function render() {
   $('[data-addons]').style.pointerEvents = included ? 'none' : '';
 
   const rows = [
-    ['Type of cleaning', q.type.label],
-    ['Home', `${q.bed.label}, ${q.bath.label}`],
-    ['Date', state.date ? fmtFull.format(state.date) : '—'],
-    ['Time', state.time || '—'],
-    ['Frequency', q.freq.label],
+    [tr('Type of cleaning'), q.type.label],
+    [tr('Home'), `${q.bed.label}, ${q.bath.label}`],
+    [tr('Date'), state.date ? fmtFull.format(state.date) : '—'],
+    [tr('Time'), state.time || '—'],
+    [tr('Frequency'), q.freq.label],
   ];
-  if (!included && q.chosen.length) rows.push(['Add-ons', q.chosen.map((a) => a.label).join(', ')]);
+  if (!included && q.chosen.length) rows.push([tr('Add-ons'), q.chosen.map((a) => a.label).join(', ')]);
 
   $('[data-summary]').innerHTML = `
     ${rows.map(([k, v]) => `<div class="row"><span>${k}</span><span>${v}</span></div>`).join('')}
-    <div class="row"><span>Subtotal</span><span>${money(q.subtotal)}</span></div>
-    ${q.discount ? `<div class="row discount"><span>Discount (${Math.round(q.discountRate * 100)}%)</span><span>−${money(q.discount)}</span></div>` : ''}
+    <div class="row"><span>${tr('Subtotal')}</span><span>${money(q.subtotal)}</span></div>
+    ${q.discount ? `<div class="row discount"><span>${tr('Discount ({rate})', { rate: pct(q.discountRate) })}</span><span>−${money(q.discount)}</span></div>` : ''}
     ${q.taxes.map((t) => `<div class="row"><span>${t.label} (${pct(t.rate)}) · ${q.province.id}</span><span>${money(t.amount)}</span></div>`).join('')}
-    <div class="row total"><span>Total (${region.currency})</span><span>${money(q.total)}</span></div>`;
+    <div class="row total"><span>${tr('Total ({currency})', { currency: region.currency })}</span><span>${money(q.total)}</span></div>`;
 
   const data = Object.fromEntries(new FormData($('#details')));
   $('[data-review]').innerHTML = `
-    <div class="ttl">Total information on order</div>
+    <div class="ttl">${tr('Total information on order')}</div>
     ${rows.map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join('')}
-    <div class="row"><span>Name</span><b>${escapeHtml(`${data.first || ''} ${data.last || ''}`.trim() || '—')}</b></div>
-    <div class="row"><span>Address</span><b>${escapeHtml([data.apt && `Unit ${data.apt}`, data.address, data.city, data.address && q.province.id, data.postal].filter(Boolean).join(', ') || '—')}</b></div>
-    <div class="row"><span>How will we get in?</span><b>${accessOptions.find((a) => a.id === state.access).label}</b></div>
-    <div class="row"><span>Tax</span><b>${q.taxes.map((t) => `${t.label} ${money(t.amount)}`).join(' + ')}</b></div>
-    <div class="row"><span>Total (${region.currency})</span><b>${money(q.total)}</b></div>`;
+    <div class="row"><span>${tr('Name')}</span><b>${escapeHtml(`${data.first || ''} ${data.last || ''}`.trim() || '—')}</b></div>
+    <div class="row"><span>${tr('Address')}</span><b>${escapeHtml([data.apt && tr('Unit {unit}', { unit: data.apt }), data.address, data.city, data.address && q.province.id, data.postal].filter(Boolean).join(', ') || '—')}</b></div>
+    <div class="row"><span>${tr('How will we get in?')}</span><b>${accessOptions.find((a) => a.id === state.access).label}</b></div>
+    <div class="row"><span>${tr('Tax')}</span><b>${q.taxes.map((t) => `${t.label} ${money(t.amount)}`).join(' + ')}</b></div>
+    <div class="row"><span>${tr('Total ({currency})', { currency: region.currency })}</span><b>${money(q.total)}</b></div>`;
 
   $$('.steps-nav span').forEach((s, i) => {
     s.classList.toggle('done', i < state.step);
@@ -170,7 +173,7 @@ function render() {
   const next = $('[data-next]');
   back.style.visibility = state.step === 0 ? 'hidden' : 'visible';
   $('.step-actions').style.display = state.step === 4 ? 'none' : '';
-  next.querySelector('span:not(.circle)').textContent = state.step === 3 ? 'Submit' : 'Next';
+  next.querySelector('span:not(.circle)').textContent = state.step === 3 ? tr('Submit') : tr('Next');
 }
 
 function escapeHtml(s) {
@@ -185,7 +188,7 @@ boot(({ gsap, lenis }) => {
     state.step = Math.max(0, Math.min(4, state.step + dir));
     if (state.step === 4) {
       const first = new FormData($('#details')).get('first');
-      $('[data-done-text]').textContent = `Thanks${first ? `, ${first}` : ''}. Your ${quote(state).type.label} clean is set for ${fmtFull.format(state.date)} at ${state.time}. This is a demo booking, so no cleaner was dispatched and nothing was charged.`;
+      $('[data-done-text]').textContent = tr('Thanks{name}. Your {type} clean is set for {date} at {time}. This is a demo booking, so no cleaner was dispatched and nothing was charged.', { name: first ? `, ${first}` : '', type: quote(state).type.label, date: fmtFull.format(state.date), time: state.time });
     }
     render();
     const active = $('.step.active');

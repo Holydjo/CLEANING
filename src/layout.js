@@ -1,7 +1,12 @@
 import { brand, nav, region } from './data.js';
+import { t, otherLanguage } from './i18n.js';
 import { social, userIcon, menuIcon, logoMark, loaderMark } from './illustrations.js';
 
 const page = document.body.dataset.page || '';
+
+/* The label is written in the language it switches to. */
+const switchLabel = otherLanguage.id === 'fr' ? 'Passer au français' : 'Switch to English';
+const langAttrs = `type="button" data-lang="${otherLanguage.id}" lang="${otherLanguage.id}" aria-label="${switchLabel}" data-no-i18n`;
 
 function isCurrent(href) {
   return href.replace('.html', '') === page;
@@ -21,7 +26,7 @@ export function renderPreloader() {
         </div>
       </div>
       <div class="perc">0%</div>
-      <small>Tidying up, one moment</small>
+      <small>${t('Tidying up, one moment')}</small>
     </div>`;
   document.body.prepend(el);
   return el;
@@ -37,6 +42,7 @@ export function renderHeader() {
         <span class="desc">${brand.tagline}</span>
       </a>
       <div class="controls">
+        <button class="lang-switch controls-lang" ${langAttrs}>${otherLanguage.label}</button>
         <a href="signin.html" class="controls-login">${userIcon}<span>Login</span></a>
         <button class="controls-menu" aria-label="Open menu" aria-expanded="false" aria-controls="main-menu">${menuIcon}</button>
       </div>
@@ -64,7 +70,7 @@ export function renderHeader() {
           </div>
         </div>
         <div>
-          <div class="ttl">Business hours (${region.timezone})</div>
+          <div class="ttl">${t('Business hours ({tz})', { tz: region.timezone })}</div>
           <div class="values">
             ${brand.hours.map((h) => `<div class="value"><div class="name">${h.days}</div><div class="val">${h.time}</div></div>`).join('')}
           </div>
@@ -78,6 +84,7 @@ export function renderHeader() {
       </div>
       <div class="menu-foot">
         <span>${region.hq} · ${region.country}</span>
+        <button class="lang-switch" ${langAttrs}>${otherLanguage.name}</button>
         <span>Get your life back!</span>
       </div>
     </div>`;
@@ -95,7 +102,7 @@ export function renderFooter() {
       <div class="top">
         <div>
           <a href="index.html" class="logo" aria-label="${brand.name} home">${logoMark}<span class="main">${brand.wordmark}</span></a>
-          <p class="copy">Copyright © ${new Date().getFullYear()} ${brand.name}.<br>All rights reserved.</p>
+          <p class="copy">${t('Copyright © {year} {brand}.', { year: new Date().getFullYear(), brand: brand.name })}<br>${t('All rights reserved.')}</p>
         </div>
         <div class="footer-menu">
           <div class="menu"><ul>
@@ -122,7 +129,7 @@ export function renderFooter() {
         </div>
       </div>
       <div class="btm">
-        <div class="legal"><a href="#">Terms and Conditions</a><a href="#">Privacy Policy</a></div>
+        <div class="legal"><a href="#">Terms and Conditions</a><a href="#">Privacy Policy</a><button class="lang-switch" ${langAttrs}>${otherLanguage.name}</button></div>
         <div class="creator"><b>${brand.name}</b> · Home cleaning in ${region.country}</div>
       </div>
     </div>`;

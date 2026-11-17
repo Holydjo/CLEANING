@@ -2808,3 +2808,81 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Language switch (EN / FR) */
+
+.lang-switch {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+#header .controls-lang {
+  height: 34px;
+  min-width: 40px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: border-color 300ms, color 300ms, transform 400ms var(--ease-out);
+}
+
+#header .controls-lang:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-1px);
+}
+
+#footer .legal .lang-switch,
+.menu-foot .lang-switch {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+#footer .legal .lang-switch:hover,
+.menu-foot .lang-switch:hover {
+  color: var(--blue);
+}
+
+@media (max-width: 860px) {
+  #header .controls {
+    gap: 14px;
+  }
+
+  #header .logo {
+    gap: 8px;
+  }
+
+  #header .logo .main {
+    font-size: 16px;
+  }
+
+  .logo .mark {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 359px) {
+  /* Very narrow phones: the switch stays in the menu and the footer. */
+  #header .controls-lang {
+    display: none;
+  }
+}
+
+/* French labels run longer: keep the hero selectors on one line and let cards shrink evenly. */
+
+.booking-selector .booking-current {
+  white-space: nowrap;
+}
+
+.cards.four > * {
+  min-width: 0;
+}

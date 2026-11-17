@@ -1,4 +1,5 @@
 import { boot } from '../main.js';
+import { t as tr } from '../i18n.js';
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import { bedrooms, bathrooms, cleaningTypes, features, reviews, quote, money } from '../data.js';
@@ -103,7 +104,7 @@ function initBookingBar(gsap) {
     const q = quote(state);
     const from = q.subtotal;
     const old = label.textContent;
-    label.textContent = `Book from ${money(from)}`;
+    label.textContent = tr('Book from {price}', { price: money(from) });
     cta.href = `booking.html?bed=${state.bedroomId}&bath=${state.bathroomId}&type=${state.typeId}`;
     if (old !== label.textContent) gsap.fromTo(label, { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power3.out' });
   };

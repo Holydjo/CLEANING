@@ -4,6 +4,24 @@
     <meta charset="UTF-8" />
     <title>Book your cleaning — HOLYDJO-CLEAN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>
+      /* Hide the page for an instant when it will be shown in French, so the English text never flashes. */
+      try {
+        var l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('holydjo-lang') || navigator.language;
+        if (/^fr/i.test(l)) {
+          document.documentElement.lang = 'fr-CA';
+          document.documentElement.classList.add('i18n-pending');
+          setTimeout(function () {
+            document.documentElement.classList.remove('i18n-pending');
+          }, 3000);
+        }
+      } catch (e) {}
+    </script>
+    <style>
+      html.i18n-pending body {
+        visibility: hidden;
+      }
+    </style>
     <meta name="description" content="Book your home cleaning in Canada. Prices in Canadian dollars with GST, HST or QST shown before you confirm." />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -85,7 +103,7 @@
             <!-- Step 4 -->
             <div class="step" data-step="3">
               <h2>Review</h2>
-              <p class="sub">Check the details. This remake does not take payment, so nothing is charged.</p>
+              <p class="sub">Check the details. This is a demo booking, so no payment is taken.</p>
               <div class="contact-card" data-review></div>
             </div>
 

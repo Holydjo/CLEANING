@@ -1,6 +1,7 @@
 /* Shared behaviours for the inner pages: services, about, team, faq, contacts, careers. */
 import { boot } from '../main.js';
-import { cleaningTypes, addons, checklist, notes, team, faq, perks, requirements, serviceAreas, money } from '../data.js';
+import { t as tr } from '../i18n.js';
+import { cleaningTypes, addons, checklist, notes, team, faq, perks, requirements, serviceAreas, money, money0, num1 } from '../data.js';
 import { portrait, mascot, services as servicesIllus, home as homeIllus } from '../illustrations.js';
 
 const page = document.body.dataset.page;
@@ -22,9 +23,9 @@ function renderServices() {
         <h3>${t.label}</h3>
         <p>${t.desc}</p>
         <div class="price">${money(t.base)}<small>from</small></div>
-        <div class="dur">${t.hours} · studio, 1 bathroom</div>
+        <div class="dur">${tr('{hours} · studio, 1 bathroom', { hours: t.hours })}</div>
         <ul class="check" style="margin-bottom: 24px">${t.includes.map((i) => `<li>${i}</li>`).join('')}</ul>
-        <a href="booking.html?type=${t.id}" class="btn ${t.featured ? '' : 'ghost'} small"><span>Book ${t.label}</span></a>
+        <a href="booking.html?type=${t.id}" class="btn ${t.featured ? '' : 'ghost'} small"><span>${tr('Book {type}', { type: t.label })}</span></a>
       </article>`,
     )
     .join('');
@@ -34,7 +35,7 @@ function renderServices() {
     .join('');
 
   document.querySelector('[data-render="addons"]').innerHTML = addons
-    .map((a) => `<div class="addon anim-up"><span>${a.label}</span><span class="p">+$${a.price}</span></div>`)
+    .map((a) => `<div class="addon anim-up"><span>${a.label}</span><span class="p">+${money0(a.price)}</span></div>`)
     .join('');
 
   document.querySelector('[data-render="notes"]').innerHTML = `<b>* Please Note</b><ul>${notes.map((n) => `<li>${n}</li>`).join('')}</ul>`;
@@ -50,7 +51,7 @@ function renderTeam() {
         <div class="photo">${portrait(m.seed, m.seed % 2 ? '#0877c8' : '#2aa3ec')}</div>
         <b>${m.name}</b>
         <small>${m.role}</small>
-        <div class="rating">${'★'.repeat(Math.round(m.rating))}<span>${m.rating.toFixed(1)} · ${m.jobs} cleanings</span></div>
+        <div class="rating">${'★'.repeat(Math.round(m.rating))}<span>${tr('{rating} · {jobs} cleanings', { rating: num1(m.rating), jobs: m.jobs })}</span></div>
       </div>`,
     )
     .join('');
